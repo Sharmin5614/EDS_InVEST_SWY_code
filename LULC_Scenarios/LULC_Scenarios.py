@@ -27,10 +27,7 @@ MONTH_NAMES = {name: idx for idx, name in enumerate(
     ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1
 )}
 
-# All paths below reproduce those explicitly provided in the original scripts.
-# L1 source contains quickflow extraction only (existing model outputs).
-# L2 ET0 is labeled 2005 but its original source path is in the 2015 folder.
-# The original spelling "Fiinal_LULC_1985.tif" is deliberately preserved.
+
 SCENARIOS = {
     "L1": {
         "base_year": 1985, "scenario_year": 1995, "climate_year": 1995,
@@ -43,7 +40,7 @@ SCENARIOS = {
         "baseline_lulc": "1995/LULC_1995/Final_LULC_1995.tif",
         "scenario_lulc": "2005/LULC/LULC_Final_2005.tif",
         "precip_folder": "2005/FINAL_PRECIPITATION",
-        "et0_folder": "2015/FINAL_EVAPOTRANSPIRATION",  # Original L2 path; verify year
+        "et0_folder": "2015/FINAL_EVAPOTRANSPIRATION",  
         "rain_events": "2005/Rain_Events_Table.csv",
         "biophysical": "2015/Biophysical_Table.csv",
     },
@@ -76,7 +73,7 @@ SCENARIOS = {
     },
 }
 
-# Shared model inputs/parameters: from supplied L2 source.
+# Shared model inputs/parameters: from source
 AOI_REL = "AOI/final_watershed_area11122.shp"
 DEM_REL = "DEM/111111Final_DEM.tif"
 SOIL_REL = "Soil_Hydrology/Final_soil_hydfology.tif"
@@ -103,7 +100,7 @@ def required_path(root, relative, label):
 
 def identify_month(filename):
     stem = Path(filename).stem.lower()
-    # Handle compact monthly filenames (P01, ET0_01, M12) used in L4/L5.
+   
     match = re.fullmatch(
         r"(?:p|precip|et|et0|eto|m|month)[_\-\s]*(0?[1-9]|1[0-2])", stem
     )
@@ -143,7 +140,7 @@ def monthly_table(folder, target):
 
 
 def run_invest(root, code, cfg):
-    # Lazy import: comparisons from existing QF maps do not need InVEST installed.
+   
     from natcap.invest import seasonal_water_yield
 
     if cfg["baseline_lulc"] is None:
